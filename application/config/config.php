@@ -41,15 +41,15 @@ if(isset($_SERVER['HTTP_HOST']))
     switch (ENVIRONMENT)
     {
         case 'development':
-            $config['cdn_url']	= 'http://localhost/';
+            $config['cdn_url']	= 'http://phpthesecureway/';
             break;
             
         case 'staging':	
-            $config['cdn_url']	= 'http://assets.domain_dev.com/';
+            $config['cdn_url']	= 'http://www.phpthesecureway.com/';
             break;
             
         case 'production':			
-            $config['cdn_url']	= 'https://assets.domain.com/'; /* <== HTTPS */
+            $config['cdn_url']	= 'http://www.phpthesecureway.com/'; /* <== HTTPS */
             break;
             
         default:
@@ -265,7 +265,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'asdfljal;sfjdlkasjdfl;kasjfals;kjsal;kfjaslfkjfsafjaslfsjkh';
+$config['encryption_key'] = 'asfH&A1h23ihAASDLH1hi2ADqiop5pPOImasd*&(';
 
 /*
 |--------------------------------------------------------------------------
