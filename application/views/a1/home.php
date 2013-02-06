@@ -14,6 +14,13 @@
 </header>
 
 
+<div class="container exploit-tabs">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="/a1/">Exploit Details</a></li>
+    <li><a href="/a1/example_1">Playground</a></li>
+  </ul>
+</div>
+
 <div class="container">
 
     <!-- Exploit Nav
@@ -47,7 +54,6 @@
 
           <h2 id="">OWASP Summary</h2>
           <img title="Exploit - A1 - Injection" src="/assets/images/owasp-headers/a1.png" />
-
         </section>
 
         <section id="description">
@@ -59,6 +65,11 @@
             Injection exploits happen when user input is not escaped before the input is passed to another service to be rand as a command.
             <br />
             This means that the User can run any command they want, and not just the command you expected them to run.
+            <div style="margin-top:10px;width:600px;">
+              <img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png" />
+              <br />
+              <span style="float:right;"><a href="http://xkcd.com/327/">XKCD</a></span>
+            </div>
           </p>
 
         </section>
@@ -166,7 +177,7 @@ $query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $id )."'
             <br />
             The query is:
           </p>
-          <pre class="prettyprint">SELECT * FROM admins WHERE username = '".$_GET['u']." AND password = '".$_GET['p']."';</pre>
+          <pre class="prettyprint">$query = " SELECT * FROM products WHERE product_name LIKE '".$_GET['name']."' ";</pre>
           <p>
             <a href="/a1/exploit" class="btn btn-large btn-primary">Go to Exploit Example</a>
           </p>

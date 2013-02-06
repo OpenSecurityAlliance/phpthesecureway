@@ -18,6 +18,21 @@
 	    <link href="http://twitter.github.com/bootstrap/assets/css/docs.css" rel="stylesheet">
 	    <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 	
+
+		<style>
+		  .exploit-tabs a{
+		    color: white;
+		  }
+		  .exploit-tabs li:hover a{
+		    color: black;
+		  }
+		  .exploit-tabs{
+		    margin-top:-38px;
+		  }
+		  .jumbotron{
+		  	z-index: -1;
+		  }
+		</style>
 	
 	
 	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -44,11 +59,6 @@
 	    
 	<!-- End Navbar -->
 	
-	    
-	    <!-- Alerts Area -->
-			<?=show_alerts();?>
-		<!-- End Alerts Area -->
-
 	    <!-- Load Content -->
 			<?php $this->load->view($this->viewer->body, $data); ?>
 	    <!-- End Load Content -->

@@ -48,14 +48,14 @@ $active_group = 'default';
 $active_record = TRUE;
 
 if(ENVIRONMENT == 'production'){
-    $db['default']['hostname'] = 'localhost';
-    $db['default']['username'] = "phpthesecureway";
+    $db['default']['hostname'] = 'internal-db.s145609.gridserver.com';
+    $db['default']['username'] = "db145609_secure";
     $db['default']['password'] = "sadfasfdh123i1hdf3280A";
-    $db['default']['database'] = "phpthesecureway";
+    $db['default']['database'] = "db145609_phpthesecureway";
 }else{
     $db['default']['hostname'] = 'localhost';
-    $db['default']['username'] = "root";
-    $db['default']['password'] = "root";
+    $db['default']['username'] = "phpthesecureway";
+    $db['default']['password'] = "phpthesecureway";
     $db['default']['database'] = "phpthesecureway";
 }
 $db['default']['dbdriver'] = 'mysql';
