@@ -13,10 +13,10 @@
 	
 	
 	<!-- Le styles -->
-	    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
-	    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
-	    <link href="http://twitter.github.com/bootstrap/assets/css/docs.css" rel="stylesheet">
-	    <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+	    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+	    <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet">
+	    <link href="/assets/css/docs.css" rel="stylesheet">
+	    <link href="/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 	
 
 		<style>
@@ -70,7 +70,7 @@
 	
 	
 	<!-- Le javascript-->
-	    <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+	    <script src="/assets/js/jquery.js"></script>
 
 	    <script src="/assets/js/google-code-prettify/prettify.js"></script>
 	    <script src="/assets/js/bootstrap-transition.js"></script>

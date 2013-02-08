@@ -105,7 +105,7 @@
             The idea is the attacker is able to execute Javascript in other browsers enabling them to do bad things.
           </p>
           <p>
-            <h3>Important Note</h3>
+            <h4>Important Note</h4>
             These attacks come from <b>un-sanitized output</b>, not because of lack of escaping input etc. 
             <br />
             In most cases once exploited your Application's database actually delivers this attack to all the potential victims.
@@ -122,11 +122,20 @@
           <p>
             So how should we have .....
           </p>
-          <pre class="prettyprint linenums"> /* XSS Sanitize function */
+          <pre class="prettyprint linenums">&#60;?php
+/* XSS Sanitize function */
 function s( $input ) {
   return htmlspecialchars( $input ); 
 }</pre>
-          <pre class="prettyprint">&#60;?php echo s( $user->name );?></pre>
+          <p>
+            Now instead of a simple echo we run it through our sanitize function.
+            <pre class="prettyprint">&#60;div>Hello: &#60;?php echo s( $user->name );?>&#60;/div></pre>
+          </p>
+          <p>
+            Now the ouput looks like:
+            <pre class="prettyprint">&#60;div>Hello: &amp;lt;script&amp;gt;alert( 'Hi' );&amp;lt;/script&amp;gt;&#60;/div></pre>
+            Instead of our vulnerable code:
+            <pre class="prettyprint">&#60;div>Hello: &lt;script&gt;alert( 'Hi' );&lt;/script&gt;&#60;/div></pre>
           </p>
 
         </section>
@@ -134,8 +143,28 @@ function s( $input ) {
         <section id="results">
         
           <h2>Vulnerability Results</h2>
+          
+          <h5>So how bad is it?</h5>
+
           <p>
-            So how bad is it?
+            The consequence of an XSS attack is the same regardless of whether it is stored or reflected (or DOM Based). 
+            The difference is in how the payload arrives at the server. 
+          </p>
+          <p>
+            The most severe XSS attacks involve disclosure of the user’s session cookie allowing an attacker to 
+            hijack the user’s session and take over the account. 
+          </p>
+          <p>
+            Other attacks include the disclosure of end user files, installation of Trojan horse programs, and 
+            redirection the user to some other page or site, or modify presentation of content. 
+          </p>
+          <p>
+            An XSS vulnerability allowing an attacker to modify a press release or news item could affect a 
+            company’s stock price or lessen consumer confidence.
+          </p>
+          <p>
+            An XSS vulnerability on a pharmaceutical site could allow an attacker to modify dosage information 
+            resulting in an overdose.
           </p>
 
         </section>
@@ -144,17 +173,7 @@ function s( $input ) {
         
           <h2>Example Vulnerability</h2>
           <p>
-            The following example that you can play with would normally (hopefully) be a POST query but in this case we set it up as a GET to make it easier
-            It would be used to login a User
-            <br />
-            The query is:
-          </p>
-          <pre class="prettyprint">SELECT * FROM admins WHERE username = '".$_GET['u']." AND password = '".$_GET['p']."';</pre>
-          <p>
-            <a href="/a1/exploit" class="btn btn-large btn-primary">Go to Exploit Example</a>
-          </p>
-          <p>
-            See if you are able to figure out the username of the main administrator.
+            ...
           </p>
           <p>
 
@@ -170,8 +189,28 @@ function s( $input ) {
           </p>
           <table class="table table-striped">
             <tr>
-              <td>OWASP SQL Injection Presentation</td>
-              <td><a href="http://www.slideshare.net/inquis/sql-injection-not-only-and-11">http://www.slideshare.net/inquis/sql-injection-not-only-and-11</a></td>
+              <td>OWASP - Cross Site Scripting (XSS)</td>
+              <td><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></td>
+            </tr>
+            <tr>
+              <td>Acunetix Web Application Security</td>
+              <td><a href="http://www.acunetix.com/websitesecurity/cross-site-scripting/">http://www.acunetix.com/websitesecurity/cross-site-scripting/</a></td>
+            </tr>
+            <tr>
+              <td>Wikipedia</td>
+              <td><a href="http://en.wikipedia.org/wiki/Cross-site_scripting">http://en.wikipedia.org/wiki/Cross-site_scripting</a></td>
+            </tr>
+            <tr>
+              <td>Cross-Site Scripting Vulnerabilities - CERT</td>
+              <td><a href="http://www.cert.org/archive/pdf/cross_site_scripting.pdf">http://www.cert.org/archive/pdf/cross_site_scripting.pdf</a></td>
+            </tr>
+            <tr>
+              <td>IBM Guide</td>
+              <td><a href="http://www.ibm.com/developerworks/tivoli/library/s-csscript/">http://www.ibm.com/developerworks/tivoli/library/s-csscript/</a></td>
+            </tr>
+            <tr>
+              <td>Imperva - Youtube Video</td>
+              <td><a href="http://www.youtube.com/watch?v=r79ozjCL7DA">http://www.youtube.com/watch?v=r79ozjCL7DA</a></td>
             </tr>
           </table>
 
