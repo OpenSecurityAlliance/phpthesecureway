@@ -14,6 +14,15 @@
 </header>
 
 
+<div class="container exploit-tabs">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="/a2/">Exploit Details</a></li>
+    <li><a href="/a2/example_1">"Stored XSS" Playground</a></li>
+  </ul>
+</div>
+
+
+
 <div class="container">
 
     <!-- Exploit Nav
@@ -46,7 +55,7 @@
         <section id="owasp-overview">
 
           <h2 id="">OWASP Summary</h2>
-          <img title="Exploit - A1 - Injection" src="/assets/images/owasp-headers/a2.png" />
+          <img title="Exploit - A2 - Cross-Site Scripting (XSS)" src="/assets/images/owasp-headers/a2.png" />
 
         </section>
 
@@ -76,21 +85,32 @@
           </p>
           <pre class="prettyprint">&#60;script>alert(43);&#60;/script></pre>
           <p>
-            Now that attack isnt particularly useful to a hacker, but the idea would be to place that code in a field that is seen in as many
+            Now that particular attack isnt particularly useful to a hacker, but the idea would be to place that code in a field that is seen in as many
             places as possible, maybe a field that returns in a Search result or a field that displays in an Admin interface.
           </p>
+          <h3>Two types of XSS attacks</h3>
+          <ul>
+            <li>Stored XSS Attacks</li>
+            <li>Reflected XSS Attacks</li>
+          </ul>
           <p>
-            The idea is the attacker is able to execute Javascript in <b>your</b> browser enabling them to change things on page manipulate links or 
-            steal your session by sending your cookies elsewhere.
+            Stored XSS attacks are attacks in which the javascript has been entered into a field that gets "stored" in the database and replayed.
+          </p>
+          <p>
+            Reflected XSS attacks on the other hand are attacks in which the field then gets pushed to other browsers as opposed or in addition to being stored. 
+            The perfect example of an attack like this would be a chat application, where a chat message containing an XSS payload gets passed to all other
+            participants in chat room.
+          </p>
+          <p>
+            The idea is the attacker is able to execute Javascript in other browsers enabling them to do bad things.
           </p>
           <p>
             <h3>Important Note</h3>
             These attacks come from <b>un-sanitized output</b>, not because of lack of escaping input etc. 
             <br />
-            In most cases once exploited your Application's database
-            actually delivers this attack to all the potential victims.
+            In most cases once exploited your Application's database actually delivers this attack to all the potential victims.
             <br /><br />
-            Tell-tale signs of a Vulnerability look all to commonly like:
+            Tell-tale signs of a Vulnerability come from un sanitzed input and output that looks all to commonly just like:
           </p>
           <pre class="prettyprint">&#60;?php echo $user->name;?></pre>
 
@@ -102,7 +122,11 @@
           <p>
             So how should we have .....
           </p>
-          <pre class="prettyprint linenums">$query = "SELECT * FROM products_table WHERE id = '".mysql_real_escape_string( $id )."' ";</pre>
+          <pre class="prettyprint linenums"> /* XSS Sanitize function */
+function s( $input ) {
+  return htmlspecialchars( $input ); 
+}</pre>
+          <pre class="prettyprint">&#60;?php echo s( $user->name );?></pre>
           </p>
 
         </section>
@@ -133,20 +157,7 @@
             See if you are able to figure out the username of the main administrator.
           </p>
           <p>
-            <table style="width:100%">
-              <tr>
-                <td><img src="/assets/images/a2/xss_how.png" style="width:100%" /></td>
-                <td>What is the exploited vulnerability?</td>
-              </tr>
-              <tr>
-                <td><img src="/assets/images/a2/xss_what.png" style="width:100%" /></td>
-                <td>How does the attack happen</td>
-              </tr>
-              <tr>
-                <td><img src="/assets/images/a2/xss_why.png" style="width:100%" /></td>
-                <td>Why would they do this?</td>
-              </tr>
-            </table>
+
           </p>
 
         </section>

