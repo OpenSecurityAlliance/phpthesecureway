@@ -172,9 +172,65 @@ function s( $input ) {
         <section id="example">
         
           <h2>Example Vulnerability</h2>
+
+          <h5>Normal Reflected / Stored XSS Attack</h5>
+
           <p>
-            ...
+            As shown above most XSS attacks happen from un sanitized output.
+            <br /><br />
+            Page code:
+            <pre class="prettyprint">&lt;a href=&quot;/messages&quot;&gt;Messages - [Injection point]&lt;/a&gt;</pre>
+            Attack Payload:
+            <pre class="prettyprint">&lt;script&gt;evilcode();&lt;/script&gt;</pre>
+            Exploit:
+            <pre class="prettyprint">&lt;a href=&quot;/messages&quot;&gt;Messages - &lt;script&gt;evilcode();&lt;/script&gt;&lt;/a&gt;</pre>
           </p>
+
+          <h5>DOM XSS Attack</h5>
+
+          <p>
+            As shown in this example not all exploits require &lt;script&gt; tags.
+            <br /><br />
+            Page code:
+            <pre class="prettyprint">&lt;a href=&quot;/profile?previouspage=[Injection point]&quot;&gt;Profile&lt;/a&gt;</pre>
+            Attack Payload:
+            <pre class="prettyprint">&quot; onclick=&quot;evilcode();&quot;</pre>
+            Exploit:
+            <pre class="prettyprint">&lt;a href=&quot;/profile?previouspage=&quot; onclick=&quot;evilcode();&quot;&gt;Profile&lt;/a&gt;</pre>
+          </p>
+
+          <p>
+            Dont forget all the tags that are susceptible to these attacks.
+            <br /><br />
+            Page code, maybe a company logo?:
+            <pre class="prettyprint">&lt;img src=&quot;[Injection point]&quot; /&gt;</pre>
+            Attack Payload:
+            <pre class="prettyprint">404.png&quot; onerror=&quot;evilcode();&quot;</pre>
+            Exploit:
+            <pre class="prettyprint">&lt;img src=&quot;404.png&quot; onerror=&quot;evilcode();&quot; /&gt;</pre>
+          </p>
+
+          <h5>Script Injection Attack</h5>
+
+          <p>
+            In this example code that is put into Script tags is exploited.
+            <br /><br />
+            Page code:
+            <pre class="prettyprint">&lt;script&gt;
+var pagetitle = 'Welcome [Injection point]!';
+document.title = pagetitle;
+&lt;/script&gt;</pre>
+            Attack Payload:
+            <pre class="prettyprint">';
+evilcode(); //</pre>
+            Exploit:
+            <pre class="prettyprint">&lt;script&gt;
+var pagetitle = 'Welcome ';
+evilcode(); //!';
+document.title = pagetitle;
+&lt;/script&gt;</pre>
+          </p>
+
           <p>
 
           </p>
@@ -191,6 +247,10 @@ function s( $input ) {
             <tr>
               <td>OWASP - Cross Site Scripting (XSS)</td>
               <td><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></td>
+            </tr>
+            <tr>
+              <td>Detectify - Unexpected XSS (DOM XSS)</td>
+              <td><a href="http://blog.detectify.com/post/36744594390/xss-where-you-least-expect-it">http://blog.detectify.com/post/36744594390/xss-where-you-least-expect-it</a></td>
             </tr>
             <tr>
               <td>Acunetix Web Application Security</td>

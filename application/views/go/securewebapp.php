@@ -41,30 +41,83 @@
           <div class="page-header">
             <h1>How to code Web Applications Securely</h1>
           </div>
-        </section>
-
-
-
-        <section id="Authentication">
-          <div class="page-header">
-            <h1>Authentication</h1>
-          </div>
-        </section>
-
-        <section id="auth-storage">
-
-          <h2>Credential Storage</h2>
           <p>
-            .......
+            We have tried to compile a list of important things you can do in your web application to help make it more secure. 
+            <br />
+            For more information on each one click read-more or look into the OWASP top 10 pages which include additional reading material.
           </p>
-
         </section>
+
+
+
 
         <section id="auth-login">
 
-          <h2>Login attempt</h2>
+          <div id="Authentication" class="page-header">
+            <h1>Authentication</h1>
+          </div>
+
           <p>
-            .......
+            Your login page is the front door to your entire application so how do we make sure its secure?
+          </p>
+
+
+          <h3>Login Page Error Messages</h3>
+          <p>
+            Error messages are an attackers best friend. If I can find a username like "superadmin" or "administrator" that gives the following error message I now know that the username is valid because of 
+<div class="alert alert-error" style="width:300px;">
+  <strong>Error:</strong> Your password is invalid.
+</div>
+            Bam! now I just need to break the password.
+            I also know the level of access Im probably going to get.
+            <br /><br />
+            You would never have an error message that says your password was <i>close, just change first letter</i> for the same reason the less information we give the attacker the better.
+            <br /><br />
+            Make your message more generic like:      
+<div class="alert alert-error" style="width:300px;">
+  <strong>Error:</strong> Invalid Username/Password.
+</div>
+          </p>
+
+
+          <h3>Brute Force</h3>
+          <p>
+            Brute force protection takes a little work, and unfortantely that leaves most applications vulnerable, so heres some pointers.
+            <br />
+            For brute force protection we utilize 2 tables
+          </p>
+          <ul>
+            <li>Login Attempts table <i>which you should already have ;-)</i></li>
+            <li>Login Bans table</li>
+          </ul>
+          <p>
+            Assuming everytime a login attempt happens the information including IP should be saved in the login_attempts table, if not add this first. (Do NOT include the pasword in this table)
+            <br />
+            Add logic <b>before</b> you process the request to check the login_bans table for the IP of the remote host where the expires_at column is greater than current time().
+            <br />
+            If a row is found show login page with error message that they have been throttled for too many failed attempts and to try again in an hour or call support...
+            <br /><br />
+            So how does an IP get banned?
+            <br />
+            Assuming we didnt find a ban and the login has failed, we add 2 more steps.
+          </p>
+          <ol>
+            <li>Log the failed login attempt with IP (which we were already doing)</li>
+            <li>Count the number of failed attempts in previous 30 min, if greater than 6 than insert a ban for 30 min.</li>
+          </ol>
+          <p>
+            Thats it, now attackers cant use your system to try and break your passwords.
+          </p>
+          <p>
+            Note: <i> This is the simplest form once you have mastered this it is reccomended that you have tiered levels of bans. ie. if someone has been banned 3 times in a few hours ban then for a full day etc.</i>
+          </p>
+
+          
+          <h3>Password Storage</h3>
+          <p>
+            Ohhh passwords.. The 
+            <br /><br />
+            You would never have an error message that says your password was <i>close, just change first letter</i> for the same reason the less information we give the attacker the better.
           </p>
 
         </section>
