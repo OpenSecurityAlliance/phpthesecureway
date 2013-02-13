@@ -115,48 +115,145 @@
           
           <h3>Password Storage</h3>
           <p>
-            Ohhh passwords.. The 
+            So A. <b>dont store your password in plaintext</b>, if you are at this site I am assuming you are beyond that step.
             <br /><br />
-            You would never have an error message that says your password was <i>close, just change first letter</i> for the same reason the less information we give the attacker the better.
+            So with hashing (<i>not encrypting 2 totally different things</i>), the problem that needs to be overcome when using hashing to save your passwords is that hashing
+            was created to be quick, the point of a hash is to validate the contents of an entire file/string etc. quickly.
+            <br /><br />
+            Well validating quickly is not what we want when we are trying to prevent someone from trying to crack a password hash they found in a database. What we want
+            is something slllooww, because 1-2 seconds during login processs may not be alot but when an attacker can only guess 1 guess per second on your password hash we can
+            be quite sure they are not going to guess it, at least using brutefore.
+            <br /><br />
+            The second problem we have is something called <b>Rainbow Tables.</b> So lets look a an example.
+            <br /><br />
+            If an attacker knows you use the sha1() function to save your passwords in the database, say they also think that you will findout you got hacked within 7 days.
+            This means he needs to crack the/as many passwords as he can in that time.
+            <br /><br />
+            Well he already know that you used sha1 to store it, so instead of beinging to hash and guess over and over After he breaks in maybe he precomputes all sha1 hashes betweem
+            0000000000 to zzzzzzzzzz now if your password is under 10 char all he has to do is search the database for the hash he found and Bam he has the cleartext password.
+            <br /><br />
+            He can also use this rainbox table for multiple attacks, infact there are now many online resources that save them for you, making it even easier.
+            <br /><br />
+
+            <h5>So what to do?</h5>
+            
+            Two things, first if we add a <a href="http://en.wikipedia.org/wiki/Salt_(cryptography)" target="_blank">Salt</a> then they cant precompute a rainbow and use it for 
+            multiple people they would have to create on specifically for us. Of we have a different salt Per hash even better they have to start over for every single hash.
+            <br /><br />
+            Second we want to slow down there ability to guess at the hash. Enter BCrypt and/or PBKDF2. With Bcrypt it slow because of the overhead involved in the key 
+            setup algorythm and PBKDF2 is slow because of number of iterations usually around 5,000 that the hash entails.
+          </p>
+          <p>
+            <h5>This is all great info but what should I actually do?</h5>
+            Good question and the answer is <a href="http://php.net/manual/en/function.crypt.php" target="_blank">crypt</a>, crypt is a PHP function that emulates unix's native crypt 
+            function and handles the salting and strngthing (rounds) of the hash function.
+            <br /><br />
+            When saving the password, save the output of the following function in that database. 
+            <pre class="prettyprint">$salted_hashed_password  =  run_crypt( $plaintext_password );</pre>
+            Here is an example function on <a href="https://gist.github.com/noahjs/4831685" target="_blank">how to implement crypt.</a> The one difference that may be 
+            new is instead of searching for the hash in the DB like you may have done before. You need to find the user based of the username and then pass the saved user's password-hash 
+            and the plaintext password from the login page into the crypt-verify function and it will pass back true or false.
+            <pre class="prettyprint">&lt;?php
+$admin  =  $this->find_admin_in_db( $username );
+if( $admin ){
+  // Validate the Admin's password is the same
+  if ( verify_crypt($password, $admin->password) ){
+    // Login Success
+  }else{
+    // Login Failed
+  }
+}
+            </pre>
+            
           </p>
 
         </section>
 
 
 
-        <section id="user-input">
+
+        <section>
+
           <div class="page-header">
             <h1>User Input</h1>
           </div>
-        </section>
 
-        <section id="database">
 
-          <h2>Database Queries</h2>
+          <h3 id="database">Database Queries</h3>
           <p>
-            .......
+            Please, please, please, please esacpe your database queries.
+            <br /><br />
+            <a href="/a1" class="btn btn-primary" style="margin-left:100px;">Go to SQL Injection Section &rarr;</a>
+            <br /><br />
+            This following is not acceptable anymore, you will be exploited
+            <pre class="prettyprint">$query  =  "SELECT * FROM users WHERE username = '".$_POST['username']."'; ";
+mysql_query( $query );</pre>
+            Attacks are all automated now, there are easy ways to see if you are doing it, and easy wasys to take advantage.
+            It doesnt matter if you just have a greeting card site, you dont want to cleanup after your site get comprimised.
+          </p>
+
+          <h3 id="escaping">Displaying Information on the Page</h3>
+          <p>
+            XSS is a very tricky subject and there are alot of specifics thats why we have this awesome section on it!
+            <br /><br />
+            <a href="/a2" class="btn btn-primary" style="margin-left:100px;">Go to XSS Section &rarr;</a>
+            <br /><br />
+            The short part about it is this. If you are allowing users to submit information and save it in a DB, then that input gets displayed somewhere else 
+            you should click the link above. 
+            <br /><br />
+            The usual vulnerailbity looks as simple as this:
+
+            <pre class="prettyprint">Hello: &#60;?php echo $user->name;?>,</pre>
+
+            Which when exploited looks like:
+
+            <pre class="prettyprint">Hello: &lt;script&gt;evilcode();&lt;/script&gt;,</pre>
+
           </p>
 
         </section>
 
-        <section id="escaping">
+        <section>
 
-          <h2>Displaying Information on the Page</h2>
+          <div class="page-header">
+            <h1>Forms</h1>
+          </div>
+
+
+          <h3 id="csrf">CSRF - Cross Site Request Forgery</h3>
           <p>
-            .......
+            Please, please, please, please esacpe your database queries.
+            <br /><br />
+            <a href="/a1" class="btn btn-primary" style="margin-left:100px;">Go to SQL Injection Section &rarr;</a>
+            <br /><br />
+            This following is not acceptable anymore, you will be exploited
+            <pre class="prettyprint">$query  =  "SELECT * FROM users WHERE username = '".$_POST['username']."'; ";
+mysql_query( $query );</pre>
+            Attacks are all automated now, there are easy ways to see if you are doing it, and easy wasys to take advantage.
+            It doesnt matter if you just have a greeting card site, you dont want to cleanup after your site get comprimised.
+            <br /><br />
+            If you use a PHP framework, chances are the 
           </p>
 
-        </section>
-
-        <section id="csrf">
-
-          <h2>Form Submissinos</h2>
+          <h3 id="escaping">Displaying Information on the Page</h3>
           <p>
-            .......
+            XSS is a very tricky subject and there are alot of specifics thats why we have this awesome section on it!
+            <br /><br />
+            <a href="/a2" class="btn btn-primary" style="margin-left:100px;">Go to XSS Section &rarr;</a>
+            <br /><br />
+            The short part about it is this. If you are allowing users to submit information and save it in a DB, then that input gets displayed somewhere else 
+            you should click the link above. 
+            <br /><br />
+            The usual vulnerailbity looks as simple as this:
+
+            <pre class="prettyprint">Hello: &#60;?php echo $user->name;?>,</pre>
+
+            Which when exploited looks like:
+
+            <pre class="prettyprint">Hello: &lt;script&gt;evilcode();&lt;/script&gt;,</pre>
+
           </p>
-
         </section>
-
 
 
         <section id="encryption">
