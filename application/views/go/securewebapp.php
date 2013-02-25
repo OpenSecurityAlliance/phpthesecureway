@@ -235,9 +235,9 @@ mysql_query( $query );</pre>
             If you use a PHP framework, chances are the 
           </p>
 
-          <h3 id="escaping">Displaying Information on the Page</h3>
+          <h3 id="escaping">Updating Objects</h3>
           <p>
-            XSS is a very tricky subject and there are alot of specifics thats why we have this awesome section on it!
+            How to handle updates on objects, dont take the "rails" shortcut.
             <br /><br />
             <a href="/a2" class="btn btn-primary" style="margin-left:100px;">Go to XSS Section &rarr;</a>
             <br /><br />

@@ -133,8 +133,17 @@ $query = "SELECT * FROM products_table WHERE id = '".$id."' ";
           <pre class="prettyprint linenums">$query = sprintf( "SELECT * FROM products_table WHERE id = '%s'", mysql_real_escape_string( $id ) );</pre>
           <pre class="prettyprint linenums">
 // If you use a PHP framework their DB Class probably has something like 
-$query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $id )."' ";
-// This is taken from CodeIgniter</pre>
+$query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $_GET['id'] )."' ";
+// This is taken from CodeIgniter
+
+// OR Even Better!
+$query = "SELECT * FROM products_table WHERE id = ? ";
+$this->db->query( $query, array($_GET['id']) );
+// Also from CodeIgniter
+
+// Here is an example using PDO
+$query = $db_conn->prepare("SELECT * FROM products_table WHERE id = :id ");
+$query->bindParam( ':id', $_GET['id'] );</pre>
           <p>
             <h4>REMEMBER:</h4>Escape everything including simple things like <b> Pagination queries! </b>
           </p>
@@ -194,6 +203,10 @@ $query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $id )."'
             To learn more about Injection attacks feel free to use any of the following resources:
           </p>
           <table class="table table-striped">
+            <tr>
+              <td>Practical Identification of SQL Injection Vulnerabilities</td>
+              <td><a href="https://www.us-cert.gov/reading_room/Practical-SQLi-Identification.pdf">https://www.us-cert.gov/reading_room/Practical-SQLi-Identification.pdf</a></td>
+            </tr>
             <tr>
               <td>OWASP SQL Injection Presentation</td>
               <td><a href="http://www.slideshare.net/inquis/sql-injection-not-only-and-11">http://www.slideshare.net/inquis/sql-injection-not-only-and-11</a></td>
