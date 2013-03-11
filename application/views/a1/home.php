@@ -130,7 +130,6 @@ $query = "SELECT * FROM products_table WHERE id = '".$id."' ";
             We will assume everything else is the same and will focus on correcting the creation of the SQL string.
           </p>
           <pre class="prettyprint linenums">$query = "SELECT * FROM products_table WHERE id = '".mysql_real_escape_string( $id )."' ";</pre>
-          <pre class="prettyprint linenums">$query = sprintf( "SELECT * FROM products_table WHERE id = '%s'", mysql_real_escape_string( $id ) );</pre>
           <pre class="prettyprint linenums">
 // If you use a PHP framework their DB Class probably has something like 
 $query = "SELECT * FROM products_table WHERE id = '".$this->db->escape( $_GET['id'] )."' ";
@@ -145,7 +144,7 @@ $this->db->query( $query, array($_GET['id']) );
 $query = $db_conn->prepare("SELECT * FROM products_table WHERE id = :id ");
 $query->bindParam( ':id', $_GET['id'] );</pre>
           <p>
-            <h4>REMEMBER:</h4>Escape everything including simple things like <b> Pagination queries! </b>
+            <h4>REMEMBER:</h4>Escape <b>everything</b> including simple things like <b> Pagination queries! </b>
           </p>
 
         </section>
